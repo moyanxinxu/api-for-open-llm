@@ -15,6 +15,7 @@ import torch
 from transformers import TextIteratorStreamer
 
 from api.templates.utils import apply_stopping_strings
+from api.config import bad_words
 
 if TYPE_CHECKING:
     from transformers import PreTrainedTokenizer, PreTrainedModel
@@ -66,7 +67,9 @@ def generate_stream(
         tokenizer, timeout=60.0, skip_prompt=True, skip_special_tokens=True
     )
     generation_kwargs["streamer"] = streamer
-
+    generation_kwargs["bad_words_ids"] = [
+        tokenizer.encode(word, add_special_tokens=False) for word in bad_words
+    ]
     if "GenerationMixin" not in str(model.generate.__func__):
         model.generate = MethodType(PreTrainedModel.generate, model)
 

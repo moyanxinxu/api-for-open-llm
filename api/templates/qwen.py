@@ -76,7 +76,10 @@ def build_qwen_chat_input(
     if query is _TEXT_COMPLETION_CMD:
         return build_last_message_input(tokenizer, history, system)
 
-    im_start_tokens, im_end_tokens = [tokenizer.im_start_id], [tokenizer.im_end_id]
+    im_start_tokens, im_end_tokens = tokenizer.encode("<|im_start|>"), tokenizer.encode(
+        "<|im_end|>"
+    )
+
     nl_tokens = tokenizer.encode("\n")
 
     if hasattr(tokenizer, "IMAGE_ST"):

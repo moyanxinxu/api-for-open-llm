@@ -21,7 +21,7 @@ def get_env(key, default):
     val = os.environ.get(key, "")
     return val or default
 
-
+bad_words = ["通义千问", "阿里云", "阿里集团", "阿里", "阿里巴巴", "通义", "千问"]
 ENGINE = get_env("ENGINE", "default").lower()
 TEI_ENDPOINT = get_env("TEI_ENDPOINT", None)
 TASKS = get_env("TASKS", "llm").lower().split(",")  # llm, rag
